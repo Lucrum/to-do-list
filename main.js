@@ -110,13 +110,33 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
 
 /***/ }),
 
+/***/ "./src/scripts/centralArea.js":
+/*!************************************!*\
+  !*** ./src/scripts/centralArea.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nfunction buildCenter(todos) {\n  let div = document.createElement('div')\n\n  for (const todo of todos) {\n    let p = document.createElement('p')\n    p.textContent = todo.title\n\n    div.append(p)\n  }\n\n  return div\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (buildCenter);\n\n//# sourceURL=webpack://to-do-list/./src/scripts/centralArea.js?");
+
+/***/ }),
+
+/***/ "./src/scripts/creationModal.js":
+/*!**************************************!*\
+  !*** ./src/scripts/creationModal.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _todo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./todo */ \"./src/scripts/todo.js\");\n\n\nfunction todoFromForm(form) {\n  const formData = new FormData(form)\n  console.log(formData)\n  let todo = new _todo__WEBPACK_IMPORTED_MODULE_0__[\"default\"](\n    formData.get('title'),\n    formData.get('description'),\n    formData.get('due-date'),\n    formData.get('priority'),\n    formData.get('notes'),\n  )\n\n  return todo\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (todoFromForm);\n\n//# sourceURL=webpack://to-do-list/./src/scripts/creationModal.js?");
+
+/***/ }),
+
 /***/ "./src/scripts/index.js":
 /*!******************************!*\
   !*** ./src/scripts/index.js ***!
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _todo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./todo */ \"./src/scripts/todo.js\");\n/* harmony import */ var _styles_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/style.css */ \"./src/styles/style.css\");\n\n\n\nlet body = document.querySelector('body')\n\nfunction buildWindow() {\n  let contentWrapper = document.createElement('div')\n  contentWrapper.classList.add('content-wrapper')\n\n  // generate sidebar\n  // central area has todos\n\n  return contentWrapper\n}\n\nbody.append(buildWindow())\n\n//# sourceURL=webpack://to-do-list/./src/scripts/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _todo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./todo */ \"./src/scripts/todo.js\");\n/* harmony import */ var _styles_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../styles/style.css */ \"./src/styles/style.css\");\n/* harmony import */ var _centralArea__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./centralArea */ \"./src/scripts/centralArea.js\");\n/* harmony import */ var _creationModal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./creationModal */ \"./src/scripts/creationModal.js\");\n\n\n\n\n\n\nlet body = document.querySelector('body')\n\nconst todos = [\n  {\n    title: \"Hello!\"\n  },\n  {\n    title: \"Todo2\"\n  },\n  {\n    title: \"Todo3\"\n  },\n]\n\nfunction buildWindow() {\n  let contentWrapper = document.createElement('div')\n  contentWrapper.classList.add('content-wrapper')\n  let createNewTodo = document.createElement('button')\n  const newTodoModal = document.querySelector('dialog#todo-modal')\n  const newTodoForm = document.querySelector('form#todo-form')\n\n  createNewTodo.textContent = \"New Task\"\n\n  createNewTodo.addEventListener('click', () => {\n    newTodoModal.showModal()\n  })\n\n  newTodoForm.addEventListener('submit', (e) => {\n    e.preventDefault()\n    newTodoModal.close()\n    console.log((0,_creationModal__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(e.target))\n  })\n\n  contentWrapper.append(newTodoModal, createNewTodo)\n  \n\n  // generate sidebar\n  // central area has todos\n\n  contentWrapper.append((0,_centralArea__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(todos))\n\n  return contentWrapper\n}\n\nbody.append(buildWindow())\n\n//# sourceURL=webpack://to-do-list/./src/scripts/index.js?");
 
 /***/ }),
 
@@ -126,7 +146,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _tod
   \*****************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass Todo {\n  constructor(title) {\n    this.title = title\n  }\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Todo);\n\n//# sourceURL=webpack://to-do-list/./src/scripts/todo.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass Todo {\n  constructor(title, description, dueDate, priority, notes) {\n    this.title = title\n    this.description = description\n    this.dueDate = dueDate\n    this.priority = priority\n    this.notes = notes\n  }\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Todo);\n\n//# sourceURL=webpack://to-do-list/./src/scripts/todo.js?");
 
 /***/ })
 
