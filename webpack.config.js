@@ -5,13 +5,8 @@ module.exports = {
   entry: {
     index: './src/scripts/index.js',
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'To-Do',
-    }),
-  ],
   output: {
-    filename: '[name].bundle.js',
+    filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
   },
   module: {
