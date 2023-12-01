@@ -1,6 +1,6 @@
 import Todo from "./todo";
 
-class Project {
+const Project = class {
   constructor() {
     this.todos = []
   }
