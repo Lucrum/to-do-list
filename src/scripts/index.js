@@ -1,28 +1,27 @@
 import "../styles/style.css"
-import renderTodos from "./centralArea"
 import renderProjects from "./sidebar"
-import { todoFromForm } from "./todo"
+import { todoFromForm, renderTodos, Todo } from "./todo"
+import { Project } from "./project"
 
-const todos = [
-  {
-    title: "Hello!",
-  },
-  {
-    title: "Todo2",
-  },
-  {
-    title: "Todo4",
-  },
+const generalTodos = [
+  new Todo('Groceries', 'Buy eggs'),
+  new Todo('School', 'Pass classes'),
+  new Todo('Feed yourself', 'cook'),
+  new Todo('Sleep'),
+]
+
+const worldDominationTodos = [
+  new Todo('Take over the world'),
+  new Todo('Make sure Diego sleeps well'),
 ]
 
 const projects = [
-  {
-    name: "Default",
-  },
-  {
-    name: "World Domination",
-  },
+  new Project("Default", generalTodos, 0),
+  new Project("World Domination", worldDominationTodos, 1),
 ]
+
+let currentProject = 0
+let highestProject = 1;
 
 const todoWrapper = document.querySelector('div#todo-wrapper')
 const createNewTodo = document.querySelector('button#new-todo')
@@ -38,15 +37,24 @@ function setup() {
   newTodoForm.addEventListener('submit', (e) => {
     e.preventDefault()
     newTodoModal.close()
-    todos.push(todoFromForm(e.target))
-    todoWrapper.replaceChildren(...renderTodos(todos))
+    projects[currentProject].todos.push(todoFromForm(e.target))
+    todoWrapper.replaceChildren(...renderTodos(projects[currentProject].todos))
   })
 
   // generate sidebar
 
-  sidebarWrapper.replaceChildren(...renderProjects(projects))
+  sidebarWrapper.replaceChildren(...renderProjects(projects, todoWrapper))
 
-  todoWrapper.replaceChildren(...renderTodos(todos))
+  todoWrapper.replaceChildren(...renderTodos(projects[currentProject].todos))
+}
+
+export function changeProject(id) {
+  for (const index in projects) {
+    if (projects[index].id === id) {
+      currentProject = index
+    }
+  }
+  console.log("Project id is now " + currentProject)
 }
 
 setup()

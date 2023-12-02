@@ -1,4 +1,4 @@
-class Todo {
+export class Todo {
   constructor(title, description, dueDate, priority, notes) {
     this.title = title
     this.description = description
@@ -20,4 +20,16 @@ export function todoFromForm(form) {
   )
 
   return todo
+}
+
+export function renderTodos(todos) {
+  let res = []
+
+  for (const todo of todos) {
+    let p = document.createElement('p')
+    p.textContent = todo.title
+    res.push(p)
+  }
+
+  return res
 }

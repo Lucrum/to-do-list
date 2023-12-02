@@ -1,7 +1,7 @@
-import Todo from "./todo";
-
-const Project = class {
-  constructor() {
-    this.todos = []
+export class Project {
+  constructor(title, todos, id) {
+    this.title = title
+    this.todos = todos
+    this.id = id
   }
 }
