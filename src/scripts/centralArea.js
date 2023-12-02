@@ -1,14 +1,14 @@
-function buildCenter(todos) {
-  let div = document.createElement('div')
+function renderTodos(todos) {
+  let res = []
 
   for (const todo of todos) {
     let p = document.createElement('p')
     p.textContent = todo.title
-
-    div.append(p)
+    res.push(p)
   }
 
-  return div
+  console.log(res)
+  return res
 }
 
-export default buildCenter
+export default renderTodos

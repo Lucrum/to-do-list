@@ -7,7 +7,7 @@ body {
   margin: 0px;
 }
 
-div.content-wrapper {
+div#content-wrapper {
   height: 70vh;
   width: clamp(300px, 50%, 1200px);
   background-color: whitesmoke;

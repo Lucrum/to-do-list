@@ -1,10 +1,7 @@
 import Todo from "./todo"
 import "../styles/style.css"
-import buildCenter from "./centralArea"
-import createModal from "./creationModal"
+import renderTodos from "./centralArea"
 import todoFromForm from "./creationModal"
-
-let body = document.querySelector('body')
 
 const todos = [
   {
@@ -14,19 +11,16 @@ const todos = [
     title: "Todo2"
   },
   {
-    title: "Todo3"
+    title: "Todo4"
   },
 ]
 
-function buildWindow() {
-  let contentWrapper = document.createElement('div')
-  contentWrapper.classList.add('content-wrapper')
-  let createNewTodo = document.createElement('button')
-  const newTodoModal = document.querySelector('dialog#todo-modal')
-  const newTodoForm = document.querySelector('form#todo-form')
+const todoWrapper = document.querySelector('div#todo-wrapper')
+const createNewTodo = document.querySelector('button#new-todo')
+const newTodoModal = document.querySelector('dialog#todo-modal')
+const newTodoForm = document.querySelector('form#todo-form')
 
-  createNewTodo.textContent = "New Task"
-
+function setup() {
   createNewTodo.addEventListener('click', () => {
     newTodoModal.showModal()
   })
@@ -34,18 +28,13 @@ function buildWindow() {
   newTodoForm.addEventListener('submit', (e) => {
     e.preventDefault()
     newTodoModal.close()
-    console.log(todoFromForm(e.target))
+    todos.push(todoFromForm(e.target))
+    todoWrapper.replaceChildren(...renderTodos(todos))
   })
 
-  contentWrapper.append(newTodoModal, createNewTodo)
-  
-
   // generate sidebar
-  // central area has todos
 
-  contentWrapper.append(buildCenter(todos))
-
-  return contentWrapper
+  todoWrapper.replaceChildren(...renderTodos(todos))
 }
 
-body.append(buildWindow())
+setup()
