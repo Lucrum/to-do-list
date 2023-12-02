@@ -20,9 +20,13 @@ div#content-wrapper {
 div#sidebar-wrapper {
   grid-column: 1 / 2;
   grid-row: 1/ 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-div#todo-wrapper {
+div#todo-wrapper,
+div#project-wrapper {
   overflow: scroll;
 }
 

@@ -21,8 +21,19 @@
       </form>
     </dialog>
 
+    <dialog id="project-modal">
+      <form id="project-form">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" required><br />
+        <input type="submit">
+      </form>
+    </dialog>
+
     <div id="content-wrapper">
-      <div id="sidebar-wrapper"></div>
+      <div id="sidebar-wrapper">
+        <div id="project-wrapper"></div>
+        <button id="new-project">New Project</button>
+      </div>
       <button id="new-todo">New Task</button>
       <div id="todo-wrapper">
       </div>

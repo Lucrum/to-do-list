@@ -10,7 +10,6 @@ export class Todo {
 
 export function todoFromForm(form) {
   const formData = new FormData(form)
-  console.log(formData)
   let todo = new Todo(
     formData.get('title'),
     formData.get('description'),
@@ -22,7 +21,7 @@ export function todoFromForm(form) {
   return todo
 }
 
-export function renderTodos(todos) {
+export function generateTodos(todos) {
   let res = []
 
   for (const todo of todos) {
