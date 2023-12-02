@@ -12,4 +12,12 @@ div#content-wrapper {
   width: clamp(300px, 50%, 1200px);
   background-color: whitesmoke;
   box-shadow: 5px 5px 5px gray;
+  display: grid;
+  grid-template-columns: minmax(150px, 2fr) 5fr;
+  grid-template-rows: minmax(50px, 1fr) 8fr;
+}
+
+div#sidebar-wrapper {
+  grid-column: 1 / 2;
+  grid-row: 1/ 3;
 }

@@ -1,9 +1,14 @@
+function renderProjects(projects) {
+  let res = []
+  
+  for (const project of projects) {
+    let projectDiv = document.createElement('div')
+    projectDiv.textContent = project.name
 
+    res.push(projectDiv)
+  }
 
-function buildSidebar() {
-  let div = document.createElement('div')
-
-  return div
+  return res
 }
 
-export default buildSidebar
+export default renderProjects
