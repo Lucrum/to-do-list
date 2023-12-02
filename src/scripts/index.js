@@ -19,8 +19,8 @@ const projects = [
   new Project("World Domination", 1),
 ]
 
-let currentProject = 0
-let highestProject = 2;
+let currentProjectId = 0
+let highestProject = 2
 
 const projectWrapper = document.querySelector('div#project-wrapper')
 const todoWrapper = document.querySelector('div#todo-wrapper')
@@ -31,7 +31,6 @@ const newTodoForm = document.querySelector('form#todo-form')
 const createNewProject = document.querySelector('button#new-project')
 const newProjectModal = document.querySelector('dialog#project-modal')
 const newProjectForm = document.querySelector('form#project-form')
-
 
 function setup() {
   createNewTodo.addEventListener('click', () => {
@@ -45,7 +44,7 @@ function setup() {
   newTodoForm.addEventListener('submit', (e) => {
     e.preventDefault()
     newTodoModal.close()
-    projects[currentProject].todos.push(todoFromForm(e.target))
+    projects[currentProjectId].todos.push(todoFromForm(e.target))
     renderTodos()
   })
 
@@ -59,19 +58,21 @@ function setup() {
   })
 
   // generate sidebar
-
   renderProjects()
   renderTodos()
 }
 
 export function changeProject(id) {
-  for (const index in projects) {
-    if (projects[index].id === id) {
-      currentProject = index
-      renderTodos()
-    }
-  }
-  console.log("Project id is now " + currentProject)
+  currentProjectId = id
+  renderTodos()
+}
+
+export function deleteProject(id) {
+  const index = projectIndex(id)
+  projects.splice(index, 1)
+  renderProjects()
+  // select the first project, if there is one
+  changeProject(projects[0] ? projects[0].id : null)
 }
 
 function renderProjects() {
@@ -79,7 +80,19 @@ function renderProjects() {
 }
 
 function renderTodos() {
-  todoWrapper.replaceChildren(...generateTodos(projects[currentProject].todos))
+  let selectedProject = projects[projectIndex(currentProjectId)]
+  todoWrapper.replaceChildren(...generateTodos(selectedProject.todos))
+}
+
+// iterates over projects until id is matched
+// assumes project id exists
+function projectIndex(id) {
+  for (const index in projects) {
+    if (projects[index].id === id) {
+      return index
+    }
+  }
+  return null
 }
 
 setup()

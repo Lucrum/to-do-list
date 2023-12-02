@@ -1,4 +1,4 @@
-import { changeProject } from "."
+import { changeProject, deleteProject } from "."
 
 export class Project {
   constructor(title, id) {
@@ -31,13 +31,24 @@ export function generateProjects(projects) {
   
   for (const project of projects) {
     let projectDiv = document.createElement('div')
+    let deleteButton = document.createElement('button')
     projectDiv.textContent = project.title
+    deleteButton.textContent = "X"
 
     projectDiv.classList.add('project')
 
     projectDiv.addEventListener('click', () => {
-      changeProject(project.id)
+      changeProject(project.id, "change")
     })
+
+    deleteButton.addEventListener('click', (e) => {
+      // prevent bubbling, otherwise
+      // it will attempt to change to the deleted project
+      e.stopPropagation()
+      deleteProject(project.id)
+    })
+
+    projectDiv.append(deleteButton)
 
     res.push(projectDiv)
   }

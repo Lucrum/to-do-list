@@ -23,10 +23,19 @@ export function todoFromForm(form) {
 
 export function generateTodos(todos) {
   let res = []
+  if (todos.length == 0) {
+    let p = document.createElement('p')
+    p.textContent = "Nothing to see here..."
+    res.push(p)
+  }
 
   for (const todo of todos) {
     let p = document.createElement('p')
     p.textContent = todo.title
+    if (todo.dueDate) {
+      p.textContent += " — " + todo.dueDate
+    }
+    
     res.push(p)
   }
 
