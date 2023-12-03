@@ -32,23 +32,22 @@ export function generateProjects(projects) {
   for (const project of projects) {
     let projectDiv = document.createElement('div')
     let deleteButton = document.createElement('button')
-    projectDiv.textContent = project.title
+    let projectName = document.createElement('h3')
+    projectName.textContent = project.title
+    
     deleteButton.textContent = "X"
 
     projectDiv.classList.add('project')
 
-    projectDiv.addEventListener('click', () => {
+    projectName.addEventListener('click', () => {
       changeProject(project.id, "change")
     })
 
     deleteButton.addEventListener('click', (e) => {
-      // prevent bubbling, otherwise
-      // it will attempt to change to the deleted project
-      e.stopPropagation()
       deleteProject(project.id)
     })
 
-    projectDiv.append(deleteButton)
+    projectDiv.append(projectName, deleteButton)
 
     res.push(projectDiv)
   }

@@ -30,6 +30,13 @@ div#project-wrapper {
   overflow: scroll;
 }
 
-div.project {
+div.project > h3 {
   cursor: pointer;
+  flex-grow: 1;
+}
+
+div.project {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
