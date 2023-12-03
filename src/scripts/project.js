@@ -22,7 +22,6 @@ export function projectFromForm(form, id) {
     formData.get('title'),
     id,
   )
-
   return project
 }
 

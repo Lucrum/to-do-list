@@ -1,6 +1,7 @@
 import "../styles/style.css"
 import { Todo, todoFromForm, generateTodos } from "./todo"
 import { Project, projectFromForm, generateProjects } from "./project"
+import { openForm } from "./forms"
 
 const generalTodos = [
   new Todo('Groceries', 'Buy eggs'),
@@ -25,36 +26,17 @@ let highestProject = 2
 const projectWrapper = document.querySelector('div#project-wrapper')
 const todoWrapper = document.querySelector('div#todo-wrapper')
 const createNewTodo = document.querySelector('button#new-todo')
-const newTodoModal = document.querySelector('dialog#todo-modal')
-const newTodoForm = document.querySelector('form#todo-form')
-
 const createNewProject = document.querySelector('button#new-project')
-const newProjectModal = document.querySelector('dialog#project-modal')
-const newProjectForm = document.querySelector('form#project-form')
 
 function setup() {
+  projects[0].todos.push(...generalTodos)
+  projects[1].todos.push(...worldDominationTodos)
   createNewTodo.addEventListener('click', () => {
-    newTodoModal.showModal()
+    openForm('todo', 'New Todo')
   })
 
   createNewProject.addEventListener('click', () => {
-    newProjectModal.showModal()
-  })
-
-  newTodoForm.addEventListener('submit', (e) => {
-    e.preventDefault()
-    newTodoModal.close()
-    projects[currentProjectId].todos.push(todoFromForm(e.target))
-    renderTodos()
-  })
-
-  newProjectForm.addEventListener('submit', (e) => {
-    e.preventDefault()
-    newProjectModal.close()
-    projects.push(projectFromForm(e.target, highestProject))
-    highestProject++
-    renderProjects()
-    console.log(projects)
+    openForm('project', 'New Project')
   })
 
   // generate sidebar
@@ -62,18 +44,7 @@ function setup() {
   renderTodos()
 }
 
-export function changeProject(id) {
-  currentProjectId = id
-  renderTodos()
-}
 
-export function deleteProject(id) {
-  const index = projectIndex(id)
-  projects.splice(index, 1)
-  renderProjects()
-  // select the first project, if there is one
-  changeProject(projects[0] ? projects[0].id : null)
-}
 
 function renderProjects() {
   projectWrapper.replaceChildren(...generateProjects(projects))
@@ -93,6 +64,32 @@ function projectIndex(id) {
     }
   }
   return null
+}
+
+export function createTodoFromForm(form) {
+  projects[currentProjectId].todos.push(todoFromForm(form))
+  renderTodos()
+}
+
+export function createProjectFromForm(form) {
+  projects.push(projectFromForm(form, highestProject))
+  highestProject++
+  renderProjects()
+}
+
+export function changeProject(id) {
+  if (id !== null) {
+    currentProjectId = id
+    renderTodos()
+  }
+}
+
+export function deleteProject(id) {
+  const index = projectIndex(id)
+  projects.splice(index, 1)
+  renderProjects()
+  // select the first project, if there is one
+  changeProject(projects[0] ? projects[0].id : null)
 }
 
 setup()
