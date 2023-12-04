@@ -1,10 +1,23 @@
 export class Todo {
   constructor(title, description, dueDate, priority, notes) {
-    this.title = title
+    this.title = title.trim()
     this.description = description
     this.dueDate = dueDate
     this.priority = priority
     this.notes = notes
+
+    if (this.description != undefined) {
+      this.description = this.description.trim()
+    }
+    if (this.notes != undefined) {
+      this.notes = this.notes.trim()
+    }
+    console.log(dueDate)
+
+    // modal for if this fails
+    if (title.length < 1) {
+      throw new Error('Name must not be empty')
+    }
   }
 }
 
@@ -35,7 +48,6 @@ export function generateTodos(todos) {
     if (todo.dueDate) {
       p.textContent += " — " + todo.dueDate
     }
-    
     res.push(p)
   }
 

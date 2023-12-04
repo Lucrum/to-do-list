@@ -23,6 +23,8 @@ const projects = [
 let currentProjectId = 0
 let highestProject = 2
 
+// edit project names, display todo info, edit todos
+
 const projectWrapper = document.querySelector('div#project-wrapper')
 const todoWrapper = document.querySelector('div#todo-wrapper')
 const createNewTodo = document.querySelector('button#new-todo')
@@ -32,11 +34,11 @@ function setup() {
   projects[0].todos.push(...generalTodos)
   projects[1].todos.push(...worldDominationTodos)
   createNewTodo.addEventListener('click', () => {
-    openForm('todo', 'New Todo')
+    openForm('todo', 'New Todo', 'new')
   })
 
   createNewProject.addEventListener('click', () => {
-    openForm('project', 'New Project')
+    openForm('project', 'New Project', 'new')
   })
 
   // generate sidebar
@@ -58,8 +60,9 @@ function renderTodos() {
 // iterates over projects until id is matched
 // assumes project id exists
 function projectIndex(id) {
+  const intId = parseInt(id)
   for (const index in projects) {
-    if (projects[index].id === id) {
+    if (projects[index].id === intId) {
       return index
     }
   }
@@ -86,10 +89,20 @@ export function changeProject(id) {
 
 export function deleteProject(id) {
   const index = projectIndex(id)
+  console.log(projects)
+  console.log("index of project id " + id + " is " + index)
   projects.splice(index, 1)
   renderProjects()
   // select the first project, if there is one
   changeProject(projects[0] ? projects[0].id : null)
+}
+
+export function editProjectTitle(id, newName) {
+  const index = projectIndex(id)
+  console.log(projects)
+  console.log("index of project id " + id + " is " + index)
+  projects[index].title = newName
+  renderProjects()
 }
 
 setup()

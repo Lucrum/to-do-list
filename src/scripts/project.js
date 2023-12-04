@@ -1,10 +1,16 @@
 import { changeProject, deleteProject } from "."
+import { openForm } from "./forms"
 
 export class Project {
   constructor(title, id) {
-    this.title = title
+    this.title = title.trim()
     this.todos = []
     this.id = id
+
+    // show modal for when this fails
+    if (this.title.length < 1) {
+      throw new Error('Name must not be empty')
+    }
   }
 
   addTodo(todo) {
@@ -31,10 +37,12 @@ export function generateProjects(projects) {
   for (const project of projects) {
     let projectDiv = document.createElement('div')
     let deleteButton = document.createElement('button')
+    let editButton = document.createElement('button')
     let projectName = document.createElement('h3')
     projectName.textContent = project.title
     
-    deleteButton.textContent = "X"
+    editButton.textContent = 'E'
+    deleteButton.textContent = 'X'
 
     projectDiv.classList.add('project')
 
@@ -42,11 +50,15 @@ export function generateProjects(projects) {
       changeProject(project.id, "change")
     })
 
-    deleteButton.addEventListener('click', (e) => {
+    editButton.addEventListener('click', () => {
+      openForm('project', 'Edit Project', 'edit', project.id)
+    })
+
+    deleteButton.addEventListener('click', () => {
       deleteProject(project.id)
     })
 
-    projectDiv.append(projectName, deleteButton)
+    projectDiv.append(projectName, editButton, deleteButton)
 
     res.push(projectDiv)
   }
