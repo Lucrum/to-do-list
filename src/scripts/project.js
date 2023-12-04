@@ -5,7 +5,8 @@ export class Project {
   constructor(title, id) {
     this.title = title.trim()
     this.todos = []
-    this.id = id
+    this.id = parseInt(id)
+    this.nextTodoId = 0
 
     // show modal for when this fails
     if (this.title.length < 1) {
@@ -14,7 +15,9 @@ export class Project {
   }
 
   addTodo(todo) {
+    todo.id = this.nextTodoId
     this.todos.push(todo)
+    this.nextTodoId++
   }
 
   removeTodo(index) {

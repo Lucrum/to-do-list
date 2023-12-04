@@ -1,10 +1,13 @@
+import { expandTodo } from "."
+
 export class Todo {
-  constructor(title, description, dueDate, priority, notes) {
+  constructor(title, description, dueDate, priority, notes, id) {
     this.title = title.trim()
     this.description = description
     this.dueDate = dueDate
-    this.priority = priority
+    this.priority = parseInt(id)
     this.notes = notes
+    this.id = parseInt(id)
 
     if (this.description != undefined) {
       this.description = this.description.trim()
@@ -12,7 +15,6 @@ export class Todo {
     if (this.notes != undefined) {
       this.notes = this.notes.trim()
     }
-    console.log(dueDate)
 
     // modal for if this fails
     if (title.length < 1) {
@@ -29,26 +31,44 @@ export function todoFromForm(form) {
     formData.get('due-date'),
     formData.get('priority'),
     formData.get('notes'),
+    formData.get('id'),
   )
-
   return todo
 }
 
-export function generateTodos(todos) {
+export function generateTodos(todos, projectId) {
   let res = []
   if (todos.length == 0) {
-    let p = document.createElement('p')
+    let p = document.createElement('div')
     p.textContent = "Nothing to see here..."
     res.push(p)
   }
 
   for (const todo of todos) {
-    let p = document.createElement('p')
+    let div = document.createElement('div')
+    let p = document.createElement('h4')
+    div.classList.add('todo')
+    p.classList.add('title')
     p.textContent = todo.title
+    p.dataset.projectId = projectId
+    p.dataset.id = todo.id
     if (todo.dueDate) {
       p.textContent += " — " + todo.dueDate
     }
-    res.push(p)
+
+    // expansion
+    div.addEventListener('click', (e) => {
+      if (e.target.dataset.expanded !== undefined) {
+        e.target.removeAttribute('data-expanded')
+        // undo expansion
+      } else {
+        e.target.dataset.expanded = ""
+        expandTodo(e.target)
+      }
+      
+    })
+    div.append(p)
+    res.push(div)
   }
 
   return res
