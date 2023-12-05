@@ -5,15 +5,15 @@ import { openForm } from "./forms"
 import { generateTodoExpansion } from "./expansion"
 
 const generalTodos = [
-  new Todo('Groceries', 'Buy eggs'),
-  new Todo('School', 'Pass classes'),
-  new Todo('Feed yourself', 'cook'),
-  new Todo('Sleep'),
+  new Todo('Groceries', 'Buy eggs', '12-5-23', 1, ''),
+  new Todo('School', 'Pass classes', '12-25-23', 1, ''),
+  new Todo('Feed yourself', 'cook', '12-15-23', 1, ''),
+  new Todo('Sleep', '', '12-29-23', 1, ''),
 ]
 
 const worldDominationTodos = [
-  new Todo('Take over the world'),
-  new Todo('Make sure Diego sleeps well'),
+  new Todo('Take over the world', '', '12-8-23', 1, ''),
+  new Todo('Make sure Diego sleeps well', '', '12-10-23', 1, ''),
 ]
 
 const projects = [
@@ -116,7 +116,7 @@ export function expandTodo(todoDiv) {
   const todoId = todoDiv.dataset.id
   const targetTodo = findTodo(projectId, todoId)
   console.log(targetTodo)
-  todoDiv.insertAdjacentElement('afterend', generateTodoExpansion(todoDiv, targetTodo))
+  todoDiv.insertAdjacentElement('afterend', generateTodoExpansion(targetTodo))
 }
 
 function findTodo(projectId, todoId) {

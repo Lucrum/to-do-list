@@ -3,18 +3,11 @@ import { expandTodo } from "."
 export class Todo {
   constructor(title, description, dueDate, priority, notes, id) {
     this.title = title.trim()
-    this.description = description
+    this.description = description.trim()
     this.dueDate = dueDate
-    this.priority = parseInt(id)
-    this.notes = notes
+    this.priority = parseInt(priority)
+    this.notes = notes.trim()
     this.id = parseInt(id)
-
-    if (this.description != undefined) {
-      this.description = this.description.trim()
-    }
-    if (this.notes != undefined) {
-      this.notes = this.notes.trim()
-    }
 
     // modal for if this fails
     if (title.length < 1) {
@@ -40,7 +33,7 @@ export function generateTodos(todos, projectId) {
   let res = []
   if (todos.length == 0) {
     let p = document.createElement('div')
-    p.textContent = "Nothing to see here..."
+    p.textContent = 'Nothing to see here...'
     res.push(p)
   }
 
@@ -57,15 +50,14 @@ export function generateTodos(todos, projectId) {
     }
 
     // expansion
-    div.addEventListener('click', (e) => {
+    p.addEventListener('click', (e) => {
       if (e.target.dataset.expanded !== undefined) {
         e.target.removeAttribute('data-expanded')
-        // undo expansion
+        e.target.parentNode.querySelector('div.todo-info').remove()
       } else {
         e.target.dataset.expanded = ""
         expandTodo(e.target)
       }
-      
     })
     div.append(p)
     res.push(div)
