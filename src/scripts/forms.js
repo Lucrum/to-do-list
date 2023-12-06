@@ -14,6 +14,11 @@ export function openForm(formType, title, action, id) {
   modal.showModal()
 }
 
+// prefills a given form with all existing data
+function fillForm() {
+
+}
+
 const todoModal = document.querySelector('dialog#todo-modal')
 const todoForm = document.querySelector('form#todo-form')
 const projectModal = document.querySelector('dialog#project-modal')

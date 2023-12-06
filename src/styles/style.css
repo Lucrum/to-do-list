@@ -45,3 +45,12 @@ div.project {
   justify-content: space-between;
   align-items: center;
 }
+
+div.todo-header {
+  display: flex;
+  align-items: center;
+}
+
+div.todo-header > .title {
+  flex-grow: 1;
+}

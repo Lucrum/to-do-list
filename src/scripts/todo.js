@@ -1,4 +1,4 @@
-import { expandTodo } from "."
+import { expandTodo, editTodo, deleteTodo } from "."
 
 export class Todo {
   constructor(title, description, dueDate, priority, notes, id) {
@@ -39,29 +39,53 @@ export function generateTodos(todos, projectId) {
 
   for (const todo of todos) {
     let div = document.createElement('div')
-    let p = document.createElement('h4')
+    let headerWrapper = document.createElement('div')
+    let headerTitle = document.createElement('h4')
+    headerWrapper.classList.add('todo-header')
+
     div.classList.add('todo')
-    p.classList.add('title')
-    p.textContent = todo.title
-    p.dataset.projectId = projectId
-    p.dataset.id = todo.id
+    headerTitle.classList.add('title')
+    headerTitle.textContent = todo.title
+    div.dataset.projectId = projectId
+    div.dataset.id = todo.id
     if (todo.dueDate) {
-      p.textContent += " — " + todo.dueDate
+      headerTitle.textContent += " — " + todo.dueDate
     }
 
     // expansion
-    p.addEventListener('click', (e) => {
+    headerTitle.addEventListener('click', (e) => {
       if (e.target.dataset.expanded !== undefined) {
         e.target.removeAttribute('data-expanded')
-        e.target.parentNode.querySelector('div.todo-info').remove()
+        e.target.parentNode.parentNode.querySelector('div.todo-info').remove()
       } else {
-        e.target.dataset.expanded = ""
-        expandTodo(e.target)
+        e.target.dataset.expanded = ''
+        expandTodo(e.target.parentNode.parentNode)
       }
     })
-    div.append(p)
+
+    // modify buttons
+    let editButton = generateModifyButton(projectId, todo.id, 'Edit')
+    let deleteButton = generateModifyButton(projectId, todo.id, 'Delete')
+    headerWrapper.append(headerTitle, editButton, deleteButton)
+    div.append(headerWrapper)
     res.push(div)
   }
-
   return res
+}
+
+function generateModifyButton(projectId, todoId, action) {
+  const b = document.createElement('button')
+  b.dataset.action = action
+  b.textContent = action
+  b.addEventListener('click', (e) => {
+    switch(e.target.dataset.action) {
+      case 'Edit':
+        editTodo(projectId, todoId)
+        break
+      case 'Delete':
+        deleteTodo(projectId, todoId)
+        break
+    }
+  })
+  return b
 }

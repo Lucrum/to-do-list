@@ -24,7 +24,7 @@ const projects = [
 let currentProjectId = 0
 let highestProject = 2
 
-// edit project names, display todo info, edit todos
+// edit + delete todos
 
 const projectWrapper = document.querySelector('div#project-wrapper')
 const todoWrapper = document.querySelector('div#todo-wrapper')
@@ -39,7 +39,7 @@ function setup() {
     projects[1].addTodo(todo)
   }
   createNewTodo.addEventListener('click', () => {
-    const newId = projects[indexFromId(projects, currentProjectId)].nextTodoId
+    const newId = projects[findIndex(projects, currentProjectId)].nextTodoId
     openForm('todo', 'New Todo', 'new', newId)
   })
 
@@ -52,20 +52,20 @@ function setup() {
   renderTodos()
 }
 
-
+setup()
 
 function renderProjects() {
   projectWrapper.replaceChildren(...generateProjects(projects))
 }
 
 function renderTodos() {
-  let selectedProject = projects[indexFromId(projects, currentProjectId)]
+  let selectedProject = projects[findIndex(projects, currentProjectId)]
   todoWrapper.replaceChildren(...generateTodos(selectedProject.todos, selectedProject.id))
 }
 
-// iterates over projects until id is matched
-// assumes project id exists
-function indexFromId(arr, id) {
+// iterates over arr until id is matched
+// assumes id exists
+function findIndex(arr, id) {
   const intId = parseInt(id)
   for (const index in arr) {
     if (arr[index].id === intId) {
@@ -73,6 +73,11 @@ function indexFromId(arr, id) {
     }
   }
   return null
+}
+
+function findTodo(projectId, todoId) {
+  const targetProject = projects[findIndex(projects, projectId)]
+  return targetProject.todos[findIndex(targetProject.todos, todoId)]
 }
 
 export function createTodoFromForm(form) {
@@ -94,7 +99,7 @@ export function changeProject(id) {
 }
 
 export function deleteProject(id) {
-  const index = indexFromId(projects, id)
+  const index = findIndex(projects, id)
   console.log(projects)
   console.log("index of project id " + id + " is " + index)
   projects.splice(index, 1)
@@ -104,24 +109,27 @@ export function deleteProject(id) {
 }
 
 export function editProjectTitle(id, newName) {
-  const index = indexFromId(projects, id)
+  const index = findIndex(projects, id)
   projects[index].title = newName
   renderProjects()
 }
 
 // calls the corresponding function after finding the particular todo
 export function expandTodo(todoDiv) {
-  console.log(todoDiv + todoDiv.dataset.projectId + ' ' + todoDiv.dataset.id)
   const projectId = todoDiv.dataset.projectId
   const todoId = todoDiv.dataset.id
   const targetTodo = findTodo(projectId, todoId)
-  console.log(targetTodo)
-  todoDiv.insertAdjacentElement('afterend', generateTodoExpansion(targetTodo))
+  todoDiv.append(generateTodoExpansion(targetTodo))
 }
 
-function findTodo(projectId, todoId) {
-  const targetProject = projects[indexFromId(projects, projectId)]
-  return targetProject.todos[indexFromId(targetProject.todos, todoId)]
+export function deleteTodo(projectId, todoId) {
+  console.log(projectId + " " + todoId)
+  const targetProject = projects[findIndex(projects, projectId)]
+  const todoIndex = findIndex(targetProject.todos, todoId)
+  targetProject.todos.splice(todoIndex, 1)
+  renderTodos()
 }
 
-setup()
+export function editTodo(projectId, todoId) {
+  console.log('editing')
+}
