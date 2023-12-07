@@ -1,7 +1,7 @@
 import "../styles/style.css"
-import { Todo, todoFromForm, generateTodos } from "./todo"
+import { Todo, todoFromForm, generateTodos, editTodoFromForm } from "./todo"
 import { Project, projectFromForm, generateProjects } from "./project"
-import { editTodoForm, newProjectForm, newTodoForm, openEditForm } from "./forms"
+import { editTodoForm, newProjectForm, newTodoForm } from "./forms"
 import { generateTodoExpansion } from "./expansion"
 
 const generalTodos = [
@@ -80,13 +80,12 @@ function findTodo(projectId, todoId) {
   return targetProject.todos[findIndex(targetProject.todos, todoId)]
 }
 
-export function createTodoFromForm(form) {
-  console.log(form)
+export function createTodo(form) {
   projects[currentProjectId].addTodo(todoFromForm(form))
   renderTodos()
 }
 
-export function createProjectFromForm(form) {
+export function createProject(form) {
   projects.push(projectFromForm(form, nextProjectId))
   nextProjectId++
   renderProjects()
@@ -124,13 +123,22 @@ export function expandTodo(todoDiv) {
 }
 
 export function deleteTodo(projectId, todoId) {
-  console.log(projectId + " " + todoId)
   const targetProject = projects[findIndex(projects, projectId)]
   const todoIndex = findIndex(targetProject.todos, todoId)
   targetProject.todos.splice(todoIndex, 1)
   renderTodos()
 }
 
-export function editTodo(projectId, todoId) {
+export function openEditTodoForm(projectId, todoId) {
   editTodoForm(projectId, findTodo(projectId, todoId))
+}
+
+export function editTodo(form) {
+
+  // need to extract project id and todo id from edit form
+  console.log(form.projectId)
+  
+  const target = findTodo(projectId, todoId)
+  Todo.editTodoFromForm(target, form)
+  renderTodos()
 }

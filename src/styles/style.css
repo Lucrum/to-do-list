@@ -35,7 +35,7 @@ div.project > h3 {
   flex-grow: 1;
 }
 
-div.todo > h4.title {
+div.todo-header > h4.title {
   cursor: pointer;
 }
 

@@ -1,4 +1,4 @@
-import { expandTodo, editTodo, deleteTodo } from "."
+import { expandTodo, openEditTodoForm, deleteTodo } from "."
 
 export class Todo {
   constructor(title, description, dueDate, priority, notes, id, projectId) {
@@ -9,10 +9,27 @@ export class Todo {
     this.notes = notes.trim()
     this.id = parseInt(id)
     this.projectId = parseInt(projectId)
+  }
 
-    // modal for if this fails
-    if (title.length < 1) {
-      throw new Error('Name must not be empty')
+  edit(title, description, dueDate, priority, notes) {
+    this.title = title
+    this.description = description.trim()
+    this.dueDate = dueDate
+    this.priority = parseInt(priority)
+    this.notes = notes.trim()
+  }
+
+  get title() {
+    return this._title
+  }
+
+  set title(value) {
+    const valueTrimmed = value.trim()
+    if (valueTrimmed.length < 1) {
+      // perhaps a modal for if this fails
+      throw new Error('Title must not be empty')
+    } else {
+      this._title = valueTrimmed
     }
   }
 }
@@ -29,6 +46,17 @@ export function todoFromForm(form) {
     formData.get('project-id'),
   )
   return todo
+}
+
+export function editTodoFromForm(todo, form) {
+  const formData = new FormData(form)
+  todo.edit(
+    formData.get('title'),
+    formData.get('description'),
+    formData.get('due-date'),
+    formData.get('priority'),
+    formData.get('notes'),
+  )
 }
 
 export function generateTodos(todos, projectId) {
@@ -82,7 +110,7 @@ function generateModifyButton(projectId, todoId, action) {
   b.addEventListener('click', (e) => {
     switch(e.target.dataset.action) {
       case 'Edit':
-        editTodo(projectId, todoId)
+        openEditTodoForm(projectId, todoId)
         break
       case 'Delete':
         deleteTodo(projectId, todoId)

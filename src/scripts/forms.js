@@ -1,46 +1,44 @@
 import dashify from "dashify"
-import { createTodoFromForm, createProjectFromForm, editProject } from "."
+import { createTodo, editTodo, createProject, editProject } from "."
 
 // ids are in the format [item, project id if applicable]
-function openForm(formType, title, action, ids) {
+function openForm(formType, title, submitText, action, ids) {
   const modal = document.querySelector(`dialog#${formType}-modal`)
-  const formDiv = modal.querySelector(`form#${formType}-form`)
-  const formTitle = modal.querySelector(`h2#${formType}-form-type`)
-  const formAction = modal.querySelector(`form#${formType}-form > input[name=action]`)
-  formTitle.textContent = title
+  const form = modal.querySelector(`form#${formType}-form`)
+  const modalTitle = modal.querySelector(`h2#${formType}-form-type`)
+  const formAction = form.querySelector(`input[name=action]`)
+  const formSubmit = form.querySelector(`input[type=submit]`)
+  console.log(formSubmit)
+  modalTitle.textContent = title
   formAction.value = action
+  formSubmit.value = submitText
   modal.showModal()
 
-  const formItemId = modal.querySelector(`form#${formType}-form > input[name=id]`)
+  const formItemId = form.querySelector(`input[name=id]`)
   formItemId.value = ids[0]
 
   if (formType === 'todo') {
-    const formProjectId = modal.querySelector(`form#${formType}-form > input[name=project-id]`)
+    const formProjectId = form.querySelector(`input[name=project-id]`)
     formProjectId.value = ids[1]
   }
   
-  return formDiv
-}
-
-export function openEditForm(formType, title, id, object, parameters) {
-  const formDiv = openForm(formType, title, 'edit', [id])
-  fillForm(formDiv, object, parameters)
+  return form
 }
 
 export function newTodoForm(projectId, todoId) {
   console.log("opening with  ids " + [todoId, projectId])
-  openForm('todo', 'New Todo', 'new', [todoId, projectId])
+  openForm('todo', 'New Todo', 'Create Todo', 'new', [todoId, projectId])
 }
 
 export function newProjectForm(projectId) {
-  openForm('project', 'New Project', 'new', [projectId])
+  openForm('project', 'New Project', 'Create Project', 'new', [projectId])
 }
 
 export function editTodoForm(projectId, todo) {
   const parameters = [
     'title', 'description', 'dueDate', 'priority', 'notes', 'id'
   ]
-  const formDiv = openForm('todo', 'Edit Todo', 'edit', [todo.id, projectId])
+  const formDiv = openForm('todo', 'Edit Todo', 'Edit', 'edit', [todo.id, projectId])
   fillForm(formDiv, todo, parameters)
 }
 
@@ -49,7 +47,7 @@ export function editProjectForm(project) {
     'title'
   ]
 
-  const formDiv = openForm('project', 'Edit Project', 'edit', project.id)
+  const formDiv = openForm('project', 'Edit Project', 'Edit', 'edit', [project.id])
   fillForm(formDiv, project, parameters)
 }
 
@@ -70,7 +68,17 @@ const projectForm = document.querySelector('form#project-form')
 todoForm.addEventListener('submit', (e) => {
   e.preventDefault()
   todoModal.close()
-  createTodoFromForm(e.target)
+  console.log("HELLO THSI IS THE FORM \/")
+  console.log(e.target)
+  const action = e.target.action.value
+  switch (action) {
+    case 'new':
+      createTodo(e.target)
+      break
+    case 'edit':
+      editTodo(e.target)
+      break
+  }
 })
 
 projectForm.addEventListener('submit', (e) => {
@@ -79,7 +87,7 @@ projectForm.addEventListener('submit', (e) => {
   const action = e.target.action.value
   switch (action) {
     case 'new':
-      createProjectFromForm(e.target)
+      createProject(e.target)
       break
     case 'edit':
       const projectId = e.target.id.value
