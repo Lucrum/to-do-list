@@ -1,13 +1,14 @@
 import { expandTodo, editTodo, deleteTodo } from "."
 
 export class Todo {
-  constructor(title, description, dueDate, priority, notes, id) {
+  constructor(title, description, dueDate, priority, notes, id, projectId) {
     this.title = title.trim()
     this.description = description.trim()
     this.dueDate = dueDate
     this.priority = parseInt(priority)
     this.notes = notes.trim()
     this.id = parseInt(id)
+    this.projectId = parseInt(projectId)
 
     // modal for if this fails
     if (title.length < 1) {
@@ -25,6 +26,7 @@ export function todoFromForm(form) {
     formData.get('priority'),
     formData.get('notes'),
     formData.get('id'),
+    formData.get('project-id'),
   )
   return todo
 }

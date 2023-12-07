@@ -1,7 +1,7 @@
 import "../styles/style.css"
 import { Todo, todoFromForm, generateTodos } from "./todo"
 import { Project, projectFromForm, generateProjects } from "./project"
-import { openForm } from "./forms"
+import { editTodoForm, newProjectForm, newTodoForm, openEditForm } from "./forms"
 import { generateTodoExpansion } from "./expansion"
 
 const generalTodos = [
@@ -22,7 +22,7 @@ const projects = [
 ]
 
 let currentProjectId = 0
-let highestProject = 2
+let nextProjectId = 2
 
 // edit + delete todos
 
@@ -40,11 +40,11 @@ function setup() {
   }
   createNewTodo.addEventListener('click', () => {
     const newId = projects[findIndex(projects, currentProjectId)].nextTodoId
-    openForm('todo', 'New Todo', 'new', newId)
+    newTodoForm(currentProjectId, newId)
   })
 
   createNewProject.addEventListener('click', () => {
-    openForm('project', 'New Project', 'new')
+    newProjectForm(nextProjectId)
   })
 
   // generate sidebar
@@ -81,13 +81,14 @@ function findTodo(projectId, todoId) {
 }
 
 export function createTodoFromForm(form) {
-  projects[currentProjectId].todos.push(todoFromForm(form))
+  console.log(form)
+  projects[currentProjectId].addTodo(todoFromForm(form))
   renderTodos()
 }
 
 export function createProjectFromForm(form) {
-  projects.push(projectFromForm(form, highestProject))
-  highestProject++
+  projects.push(projectFromForm(form, nextProjectId))
+  nextProjectId++
   renderProjects()
 }
 
@@ -108,7 +109,7 @@ export function deleteProject(id) {
   changeProject(projects[0] ? projects[0].id : null)
 }
 
-export function editProjectTitle(id, newName) {
+export function editProject(id, newName) {
   const index = findIndex(projects, id)
   projects[index].title = newName
   renderProjects()
@@ -131,5 +132,5 @@ export function deleteTodo(projectId, todoId) {
 }
 
 export function editTodo(projectId, todoId) {
-  console.log('editing')
+  editTodoForm(projectId, findTodo(projectId, todoId))
 }

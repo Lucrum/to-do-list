@@ -1,5 +1,5 @@
 import { changeProject, deleteProject } from "."
-import { openForm } from "./forms"
+import { editProjectForm } from "./forms"
 
 export class Project {
   constructor(title, id) {
@@ -54,7 +54,7 @@ export function generateProjects(projects) {
     })
 
     editButton.addEventListener('click', () => {
-      openForm('project', 'Edit Project', 'edit', project.id)
+      editProjectForm(project)
     })
 
     deleteButton.addEventListener('click', () => {
