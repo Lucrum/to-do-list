@@ -2,51 +2,68 @@ import dashify from "dashify"
 import { createTodo, editTodo, createProject, editProject } from "."
 
 // ids are in the format [item's, project's if applicable]
-function openForm(formType, title, submitText, action, ids) {
-  const modal = document.querySelector(`dialog#${formType}-modal`)
-  const form = modal.querySelector(`form#${formType}-form`)
-  const modalTitle = modal.querySelector(`h2#${formType}-form-type`)
+function openModal(modal) {
+  modal.showModal()
+}
+
+function buildForm(form, title, submitText, action, id) {
+  const formTitle = form.querySelector(`h2`)
   const formAction = form.querySelector(`input[name=action]`)
   const formSubmit = form.querySelector(`input[type=submit]`)
-  modalTitle.textContent = title
+  const formItemId = form.querySelector(`input[name=id]`)
+  formTitle.textContent = title
   formAction.value = action
   formSubmit.value = submitText
-  modal.showModal()
+  formItemId.value = id
+}
 
-  const formItemId = form.querySelector(`input[name=id]`)
-  formItemId.value = ids[0]
+function insertProjectId(form, id) {
+  const formProjectId = form.querySelector(`input[name=project-id]`)
+  formProjectId.value = id
+}
 
-  if (formType === 'todo') {
-    const formProjectId = form.querySelector(`input[name=project-id]`)
-    formProjectId.value = ids[1]
-  }
-  
-  return form
+function getModalForm(formType) {
+  const modal = document.querySelector(`dialog#${formType}-modal`)
+  const form = modal.querySelector(`form`)
+  return [modal, form]
 }
 
 export function newTodoForm(projectId, todoId) {
-  openForm('todo', 'New Todo', 'Create Todo', 'new', [todoId, projectId])
+  const [modal, form] = getModalForm('todo')
+  clearForm(form)
+  buildForm(form, 'New Todo', 'Create Todo', 'new', todoId)
+  insertProjectId(form, projectId)
+  openModal(modal)
 }
 
 export function newProjectForm(projectId) {
-  openForm('project', 'New Project', 'Create Project', 'new', [projectId])
+  const [modal, form] = getModalForm('project')
+  clearForm(form)
+  buildForm(form, 'New Project', 'Create Project', 'new', projectId)
+  openModal(modal)
 }
 
-export function editTodoForm(projectId, todo) {
+// must pass in entire todo for data filling
+export function editTodoForm(todo) {
   const parameters = [
     'title', 'description', 'dueDate', 'priority', 'notes', 'id'
   ]
-  const formDiv = openForm('todo', 'Edit Todo', 'Edit', 'edit', [todo.id, projectId])
-  fillForm(formDiv, todo, parameters)
+  const [modal, form] = getModalForm('todo')
+  buildForm(form, 'Edit Todo', 'Edit', 'edit', todo.id)
+  insertProjectId(form, todo.projectId)
+  fillForm(form, todo, parameters)
+  openModal(modal)
 }
 
+// must pass in entire project for data filling
 export function editProjectForm(project) {
   const parameters = [
     'title'
   ]
-
-  const formDiv = openForm('project', 'Edit Project', 'Edit', 'edit', [project.id])
-  fillForm(formDiv, project, parameters)
+  const [modal, form] = getModalForm('project')
+  buildForm(form, 'Edit Project', 'Edit', 'edit', project.id)
+  fillForm(form, project, parameters)
+  openModal(modal)
 }
 
 // prefills a given form with the object, and given parameters
@@ -56,6 +73,14 @@ function fillForm(formDiv, object, parameters) {
     const targetInput = formDiv.querySelector(`input[name=${dashify(param)}]`)
     targetInput.value = object[param]
   }
+}
+
+// empties a form's inputs
+function clearForm(formDiv) {
+  const inputs = formDiv.querySelectorAll('input')
+  inputs.forEach((e) => {
+    e.value = ''
+  })
 }
 
 const todoModal = document.querySelector('dialog#todo-modal')

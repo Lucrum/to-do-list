@@ -135,7 +135,7 @@ export function deleteTodo(projectId, todoId) {
 }
 
 export function openEditTodoForm(projectId, todoId) {
-  editTodoForm(projectId, findTodo(projectId, todoId))
+  editTodoForm(findTodo(projectId, todoId))
 }
 
 export function editTodo(form) {
