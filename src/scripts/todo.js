@@ -34,8 +34,7 @@ export class Todo {
   }
 }
 
-export function todoFromForm(form) {
-  const formData = new FormData(form)
+export function todoFromFormData(formData) {
   let todo = new Todo(
     formData.get('title'),
     formData.get('description'),
@@ -48,8 +47,7 @@ export function todoFromForm(form) {
   return todo
 }
 
-export function editTodoFromForm(todo, form) {
-  const formData = new FormData(form)
+export function editTodoFromFormData(todo, formData) {
   todo.edit(
     formData.get('title'),
     formData.get('description'),
@@ -62,9 +60,7 @@ export function editTodoFromForm(todo, form) {
 export function generateTodos(todos, projectId) {
   let res = []
   if (todos.length == 0) {
-    let p = document.createElement('div')
-    p.textContent = 'Nothing to see here...'
-    res.push(p)
+    res.push(renderNoTodos())
   }
 
   for (const todo of todos) {
@@ -101,6 +97,13 @@ export function generateTodos(todos, projectId) {
     res.push(div)
   }
   return res
+}
+
+export function renderNoTodos() {
+  let p = document.createElement('div')
+  p.classList.add('empty-todo')
+  p.textContent = 'Nothing to see here...'
+  return p
 }
 
 function generateModifyButton(projectId, todoId, action) {

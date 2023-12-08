@@ -91,7 +91,7 @@ projectForm.addEventListener('submit', (e) => {
       break
     case 'edit':
       const projectId = e.target.id.value
-      editProject(projectId, e.target.title.value)
+      editProject(projectId, e.target)
       break
   }
 })

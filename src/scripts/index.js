@@ -1,6 +1,6 @@
 import "../styles/style.css"
-import { Todo, todoFromForm, generateTodos, editTodoFromForm } from "./todo"
-import { Project, projectFromForm, generateProjects } from "./project"
+import { Todo, todoFromFormData, generateTodos, editTodoFromFormData, renderNoTodos } from "./todo"
+import { Project, projectFromForm, generateProjects, editProjectFromFormData } from "./project"
 import { editTodoForm, newProjectForm, newTodoForm } from "./forms"
 import { generateTodoExpansion } from "./expansion"
 
@@ -24,7 +24,7 @@ const projects = [
 let currentProjectId = 0
 let nextProjectId = 2
 
-// edit + delete todos
+// project selection gets wonky when project list empty
 
 const projectWrapper = document.querySelector('div#project-wrapper')
 const todoWrapper = document.querySelector('div#todo-wrapper')
@@ -81,12 +81,15 @@ function findTodo(projectId, todoId) {
 }
 
 export function createTodo(form) {
-  projects[currentProjectId].addTodo(todoFromForm(form))
+  const formData = new FormData(form)
+  projects[currentProjectId].addTodo(todoFromFormData(formData))
   renderTodos()
 }
 
 export function createProject(form) {
-  projects.push(projectFromForm(form, nextProjectId))
+  const formData = new FormData(form)
+  projects.push(projectFromForm(nextProjectId, formData))
+  changeProject(nextProjectId)
   nextProjectId++
   renderProjects()
 }
@@ -95,6 +98,8 @@ export function changeProject(id) {
   if (id !== null) {
     currentProjectId = id
     renderTodos()
+  } else {
+    todoWrapper.replaceChildren(renderNoTodos())
   }
 }
 
@@ -108,9 +113,10 @@ export function deleteProject(id) {
   changeProject(projects[0] ? projects[0].id : null)
 }
 
-export function editProject(id, newName) {
-  const index = findIndex(projects, id)
-  projects[index].title = newName
+export function editProject(projectId, form) {
+  const index = findIndex(projects, projectId)
+  const formData = new FormData(form)
+  editProjectFromFormData(projects[index], formData)
   renderProjects()
 }
 
@@ -134,11 +140,10 @@ export function openEditTodoForm(projectId, todoId) {
 }
 
 export function editTodo(form) {
-
-  // need to extract project id and todo id from edit form
-  console.log(form.projectId)
-  
+  const formData = new FormData(form)
+  const projectId = formData.get('project-id')
+  const todoId = formData.get('id')
   const target = findTodo(projectId, todoId)
-  Todo.editTodoFromForm(target, form)
+  editTodoFromFormData(target, formData)
   renderTodos()
 }

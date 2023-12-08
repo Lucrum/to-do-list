@@ -23,15 +23,24 @@ export class Project {
   removeTodo(index) {
     this.todos.splice(index, 1)
   }
+
+  edit(title) {
+    this.title = title
+  }
 }
 
-export function projectFromForm(form, id) {
-  const formData = new FormData(form)
+export function projectFromForm(id, formData) {
   let project = new Project(
     formData.get('title'),
     id,
   )
   return project
+}
+
+export function editProjectFromFormData(project, formData) {
+  project.edit(
+    formData.get('title')
+  )
 }
 
 export function generateProjects(projects) {
