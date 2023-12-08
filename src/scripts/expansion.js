@@ -1,5 +1,6 @@
 // expands a given todo div with the info
-const expandedTodoProperties = ['description', 'priority', 'notes']
+import { expandedTodoProperties } from "./todo"
+
 
 export function generateTodoExpansion(todo) {
   const div = document.createElement('div')

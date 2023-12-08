@@ -24,8 +24,6 @@ const projects = [
 let currentProjectId = 0
 let nextProjectId = 2
 
-// project selection gets wonky when project list empty
-
 const projectWrapper = document.querySelector('div#project-wrapper')
 const todoWrapper = document.querySelector('div#todo-wrapper')
 const createNewTodo = document.querySelector('button#new-todo')
@@ -82,7 +80,8 @@ function findTodo(projectId, todoId) {
 
 export function createTodo(form) {
   const formData = new FormData(form)
-  projects[currentProjectId].addTodo(todoFromFormData(formData))
+  const projectIndex = findIndex(projects, currentProjectId)
+  projects[projectIndex].addTodo(todoFromFormData(formData))
   renderTodos()
 }
 
@@ -97,16 +96,16 @@ export function createProject(form) {
 export function changeProject(id) {
   if (id !== null) {
     currentProjectId = id
+    createNewTodo.disabled = false
     renderTodos()
   } else {
     todoWrapper.replaceChildren(renderNoTodos())
+    createNewTodo.disabled = true
   }
 }
 
 export function deleteProject(id) {
   const index = findIndex(projects, id)
-  console.log(projects)
-  console.log("index of project id " + id + " is " + index)
   projects.splice(index, 1)
   renderProjects()
   // select the first project, if there is one

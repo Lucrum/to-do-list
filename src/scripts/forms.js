@@ -1,14 +1,13 @@
 import dashify from "dashify"
 import { createTodo, editTodo, createProject, editProject } from "."
 
-// ids are in the format [item, project id if applicable]
+// ids are in the format [item's, project's if applicable]
 function openForm(formType, title, submitText, action, ids) {
   const modal = document.querySelector(`dialog#${formType}-modal`)
   const form = modal.querySelector(`form#${formType}-form`)
   const modalTitle = modal.querySelector(`h2#${formType}-form-type`)
   const formAction = form.querySelector(`input[name=action]`)
   const formSubmit = form.querySelector(`input[type=submit]`)
-  console.log(formSubmit)
   modalTitle.textContent = title
   formAction.value = action
   formSubmit.value = submitText
@@ -26,7 +25,6 @@ function openForm(formType, title, submitText, action, ids) {
 }
 
 export function newTodoForm(projectId, todoId) {
-  console.log("opening with  ids " + [todoId, projectId])
   openForm('todo', 'New Todo', 'Create Todo', 'new', [todoId, projectId])
 }
 
@@ -68,8 +66,6 @@ const projectForm = document.querySelector('form#project-form')
 todoForm.addEventListener('submit', (e) => {
   e.preventDefault()
   todoModal.close()
-  console.log("HELLO THSI IS THE FORM \/")
-  console.log(e.target)
   const action = e.target.action.value
   switch (action) {
     case 'new':

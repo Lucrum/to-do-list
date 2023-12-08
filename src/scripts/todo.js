@@ -34,6 +34,8 @@ export class Todo {
   }
 }
 
+export const expandedTodoProperties = ['description', 'priority', 'notes']
+
 export function todoFromFormData(formData) {
   let todo = new Todo(
     formData.get('title'),
