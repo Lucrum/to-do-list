@@ -1,19 +1,20 @@
-import "../styles/style.css"
+import "../styles/window.css"
+import "../styles/todo.css"
 import { Todo, todoFromFormData, generateTodos, editTodoFromFormData, renderNoTodos } from "./todo"
 import { Project, projectFromForm, generateProjects, editProjectFromFormData } from "./project"
 import { editTodoForm, newProjectForm, newTodoForm } from "./forms"
 import { generateTodoExpansion } from "./expansion"
 
 const generalTodos = [
-  new Todo('Groceries', 'Buy eggs', '12-5-23', 1, ''),
-  new Todo('School', 'Pass classes', '12-25-23', 1, ''),
-  new Todo('Feed yourself', 'cook', '12-15-23', 1, ''),
-  new Todo('Sleep', '', '12-29-23', 1, ''),
+  new Todo('Groceries', 'Buy eggs', '12-5-23', 1, '', 0, 0),
+  new Todo('School', 'Pass classes', '12-25-23', 5, '', 1, 0),
+  new Todo('Feed yourself', 'cook', '12-15-23', 3, '', 2, 0),
+  new Todo('Sleep', '', '12-29-23', 4, '', 3, 0),
 ]
 
 const worldDominationTodos = [
-  new Todo('Take over the world', '', '12-8-23', 1, ''),
-  new Todo('Make sure Diego sleeps well', '', '12-10-23', 1, ''),
+  new Todo('Take over the world', '', '12-8-23', 1, '', 1, 0),
+  new Todo('Make sure Diego sleeps well', '', '12-10-23', 1, '', 1, 1),
 ]
 
 const projects = [

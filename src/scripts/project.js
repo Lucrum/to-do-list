@@ -1,5 +1,7 @@
 import { changeProject, deleteProject } from "."
 import { editProjectForm } from "./forms"
+import DeleteIcon from "../images/icons/delete.svg"
+import EditIcon from "../images/icons/pencil.svg"
 
 export class Project {
   constructor(title, id) {
@@ -48,17 +50,15 @@ export function generateProjects(projects) {
   
   for (const project of projects) {
     let projectDiv = document.createElement('div')
-    let deleteButton = document.createElement('button')
-    let editButton = document.createElement('button')
-    let projectName = document.createElement('h3')
-    projectName.textContent = project.title
+    let projectTitle = document.createElement('h3')
+    projectTitle.textContent = project.title
+    projectTitle.classList.add('title')
     
-    editButton.textContent = 'E'
-    deleteButton.textContent = 'X'
+    const [editButton, deleteButton] = generateModifyButtons()
 
     projectDiv.classList.add('project')
 
-    projectName.addEventListener('click', () => {
+    projectTitle.addEventListener('click', () => {
       changeProject(project.id, "change")
     })
 
@@ -70,10 +70,20 @@ export function generateProjects(projects) {
       deleteProject(project.id)
     })
 
-    projectDiv.append(projectName, editButton, deleteButton)
+    projectDiv.append(projectTitle, editButton, deleteButton)
 
     res.push(projectDiv)
   }
 
   return res
+}
+
+function generateModifyButtons() {
+  const editButton = document.createElement('img')
+  const deleteButton = document.createElement('img')
+  editButton.src = EditIcon
+  editButton.classList.add('small-icon')
+  deleteButton.src = DeleteIcon
+  deleteButton.classList.add('small-icon')
+  return [editButton, deleteButton]
 }

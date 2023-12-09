@@ -1,3 +1,7 @@
+:root {
+  --standard-radius: 0.5rem;
+}
+
 body {
   height: 100vh;
   width: 100vw;
@@ -15,6 +19,12 @@ div#content-wrapper {
   display: grid;
   grid-template-columns: minmax(150px, 2fr) 5fr;
   grid-template-rows: minmax(50px, 1fr) 8fr;
+  border-radius: var(--standard-radius);
+}
+
+div#content-wrapper,
+button {
+  border-radius: var(--standard-radius)
 }
 
 div#sidebar-wrapper {
@@ -30,27 +40,32 @@ div#project-wrapper {
   overflow: scroll;
 }
 
-div.project > h3 {
-  cursor: pointer;
+.project > .title,
+.todo-header > .title {
   flex-grow: 1;
 }
 
-div.todo-header > h4.title {
+.project > .title,
+.todo-header > .title,
+img.small-icon {
   cursor: pointer;
 }
 
 
-div.project {
+.project {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-div.todo-header {
-  display: flex;
-  align-items: center;
+img.small-icon {
+  height: 20px;
+  width: 20px;
+  margin: 0px 5px;
+  padding: 2px;
+  border-radius: var(--standard-radius);
 }
 
-div.todo-header > .title {
-  flex-grow: 1;
+img.small-icon:hover {
+  background-image: linear-gradient(rgb(0 0 0/10%) 0 0);
 }

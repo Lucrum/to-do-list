@@ -1,4 +1,6 @@
 import { expandTodo, openEditTodoForm, deleteTodo } from "."
+import DeleteIcon from "../images/icons/delete.svg"
+import EditIcon from "../images/icons/pencil.svg"
 
 export class Todo {
   constructor(title, description, dueDate, priority, notes, id, projectId) {
@@ -89,6 +91,7 @@ export function generateTodos(todos, projectId) {
     headerTitle.textContent = todo.title
     div.dataset.projectId = projectId
     div.dataset.id = todo.id
+    div.dataset.priority = todo.priority
     if (todo.dueDate) {
       headerTitle.textContent += " — " + todo.dueDate
     }
@@ -105,8 +108,8 @@ export function generateTodos(todos, projectId) {
     })
 
     // modify buttons
-    let editButton = generateModifyButton(projectId, todo.id, 'Edit')
-    let deleteButton = generateModifyButton(projectId, todo.id, 'Delete')
+    let editButton = generateModifyButton(projectId, todo.id, 'Edit', EditIcon)
+    let deleteButton = generateModifyButton(projectId, todo.id, 'Delete', DeleteIcon)
     headerWrapper.append(headerTitle, editButton, deleteButton)
     div.append(headerWrapper)
     res.push(div)
@@ -121,10 +124,11 @@ export function renderNoTodos() {
   return p
 }
 
-function generateModifyButton(projectId, todoId, action) {
-  const b = document.createElement('button')
+function generateModifyButton(projectId, todoId, action, icon) {
+  const b = document.createElement('img')
   b.dataset.action = action
-  b.textContent = action
+  b.src = icon
+  b.classList.add('small-icon')
   b.addEventListener('click', (e) => {
     switch(e.target.dataset.action) {
       case 'Edit':

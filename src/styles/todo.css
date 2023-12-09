@@ -1,0 +1,36 @@
+:root {
+  --priority-one: #dcdcdc;
+  --priority-two: #e5afa5;
+  --priority-three: #ee816e;
+  --priority-four: #f65437;
+  --priority-five: #ff2600;
+}
+
+div.todo {
+  padding: 2rem;
+}
+
+div.todo-header {
+  display: flex;
+  align-items: center;
+}
+
+div.todo[data-priority='1'] {
+  background-color: var(--priority-one);
+}
+
+div.todo[data-priority='2'] {
+  background-color: var(--priority-two);
+}
+
+div.todo[data-priority='3'] {
+  background-color: var(--priority-three);
+}
+
+div.todo[data-priority='4'] {
+  background-color: var(--priority-four);
+}
+
+div.todo[data-priority='5'] {
+  background-color: var(--priority-five);
+}
