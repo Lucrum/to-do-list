@@ -2,10 +2,10 @@ import { expandTodo, openEditTodoForm, deleteTodo } from "."
 
 export class Todo {
   constructor(title, description, dueDate, priority, notes, id, projectId) {
-    this.title = title.trim()
+    this.title = title
     this.description = description.trim()
     this.dueDate = dueDate
-    this.priority = parseInt(priority)
+    this.priority = priority
     this.notes = notes.trim()
     this.id = parseInt(id)
     this.projectId = parseInt(projectId)
@@ -17,6 +17,19 @@ export class Todo {
     this.dueDate = dueDate
     this.priority = parseInt(priority)
     this.notes = notes.trim()
+  }
+
+  get priority() {
+    return this._priority
+  }
+
+  set priority(value) {
+    const valueNum = parseInt(value)
+    if (valueNum > 0 && valueNum <= 5) {
+      this._priority = value
+    } else {
+      throw new Error("Todo priority cannot be below 1")
+    }
   }
 
   get title() {

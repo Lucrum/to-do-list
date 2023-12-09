@@ -32,6 +32,8 @@ export function newTodoForm(projectId, todoId) {
   const [modal, form] = getModalForm('todo')
   clearForm(form)
   buildForm(form, 'New Todo', 'Create Todo', 'new', todoId)
+  // minimum priority
+  form.querySelector(`input[name=priority]`).value = 1
   insertProjectId(form, projectId)
   openModal(modal)
 }
