@@ -1,13 +1,14 @@
 :root {
-  --priority-one: #dcdcdc;
-  --priority-two: #e5afa5;
-  --priority-three: #ee816e;
-  --priority-four: #f65437;
-  --priority-five: #ff2600;
+  --priority-one: #FFF0D9;
+  --priority-two: #FECEBD;
+  --priority-three: #FEADA1;
+  --priority-four: #FD8B85;
+  --priority-five: #FC6969;
 }
 
 div.todo {
   padding: 2rem;
+  border-radius: var(--standard-radius);
 }
 
 div.todo-header {
