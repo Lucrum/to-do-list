@@ -53,7 +53,7 @@ export function generateProjects(projects) {
     let projectTitle = document.createElement('h3')
     projectTitle.textContent = project.title
     projectTitle.classList.add('title')
-    
+    projectDiv.dataset.projectId = project.id
     const [editButton, deleteButton] = generateModifyButtons()
 
     projectDiv.classList.add('project')

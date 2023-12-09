@@ -1,5 +1,6 @@
 import "../styles/window.css"
 import "../styles/todo.css"
+import "../styles/project.css"
 import { Todo, todoFromFormData, generateTodos, editTodoFromFormData, renderNoTodos } from "./todo"
 import { Project, projectFromForm, generateProjects, editProjectFromFormData } from "./project"
 import { editTodoForm, newProjectForm, newTodoForm } from "./forms"
@@ -79,6 +80,19 @@ function findTodo(projectId, todoId) {
   return targetProject.todos[findIndex(targetProject.todos, todoId)]
 }
 
+function removeProjectHighlights(id) {
+  // remove all highlights
+  const highlightedProjects = projectWrapper.querySelectorAll(`div.project.active`)
+  for (const project of highlightedProjects) {
+    project.classList.remove('active')
+  }
+}
+
+function addProjectHighlight(id) {
+  const projectDiv = projectWrapper.querySelector(`div.project[data-project-id='${id}']`)
+  projectDiv.classList.add('active')
+}
+
 export function createTodo(form) {
   const formData = new FormData(form)
   const projectIndex = findIndex(projects, currentProjectId)
@@ -89,15 +103,17 @@ export function createTodo(form) {
 export function createProject(form) {
   const formData = new FormData(form)
   projects.push(projectFromForm(nextProjectId, formData))
+  renderProjects()
   changeProject(nextProjectId)
   nextProjectId++
-  renderProjects()
 }
 
 export function changeProject(id) {
+  removeProjectHighlights()
   if (id !== null) {
     currentProjectId = id
     createNewTodo.disabled = false
+    addProjectHighlight(id)
     renderTodos()
   } else {
     todoWrapper.replaceChildren(renderNoTodos())
