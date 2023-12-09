@@ -49,7 +49,7 @@ function setup() {
 
   // generate sidebar
   renderProjects()
-  renderTodos()
+  changeProject(currentProjectId)
 }
 
 setup()
