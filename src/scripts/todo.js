@@ -97,13 +97,15 @@ export function generateTodos(todos, projectId) {
     }
 
     // expansion
-    headerTitle.addEventListener('click', (e) => {
-      if (e.target.dataset.expanded !== undefined) {
-        e.target.removeAttribute('data-expanded')
-        e.target.parentNode.parentNode.querySelector('div.todo-info').remove()
+    headerWrapper.addEventListener('click', (e) => {
+      console.log(e)
+      const parent = e.target.parentNode.parentNode
+      if (parent.dataset.expanded !== undefined) {
+        parent.removeAttribute('data-expanded')
+        parent.parentNode.querySelector('div.todo-info').remove()
       } else {
-        e.target.dataset.expanded = ''
-        expandTodo(e.target.parentNode.parentNode)
+        parent.dataset.expanded = ''
+        expandTodo(parent)
       }
     })
 
