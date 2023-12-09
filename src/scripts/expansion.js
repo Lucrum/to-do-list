@@ -5,17 +5,12 @@ import { expandedTodoProperties } from "./todo"
 export function generateTodoExpansion(todo) {
   const div = document.createElement('div')
   div.classList.add('todo-info')
-
-  description.textContent = todo.description
-  priority.textContent = todo.priority
-  notes.textContent = todo.notes
-
   for (const property of expandedTodoProperties) {
     const propertyDiv = document.createElement('div')
     const propertyHeading = document.createElement('h5')
     const propertyDetails = document.createElement('p')
     propertyHeading.textContent = capitalize(property)
-    propertyDetails.textContent = todo[property]
+    propertyDetails.textContent = todo[property].toString().length > 0 ? todo[property] : "None"
 
     propertyDiv.append(propertyHeading, propertyDetails)
     div.append(propertyDiv)
