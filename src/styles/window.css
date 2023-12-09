@@ -1,5 +1,6 @@
 :root {
   --standard-radius: 0.5rem;
+  --light-tint: linear-gradient(rgb(0 0 0/10%) 0 0);
 }
 
 body {
@@ -18,8 +19,9 @@ div#content-wrapper {
   box-shadow: 5px 5px 5px gray;
   display: grid;
   grid-template-columns: minmax(150px, 2fr) 5fr;
-  grid-template-rows: minmax(50px, 1fr) 8fr;
+  grid-template-rows: minmax(50px, 1fr) 15fr;
   border-radius: var(--standard-radius);
+  padding: 1rem;
 }
 
 div#content-wrapper,
@@ -51,13 +53,6 @@ img.small-icon {
   cursor: pointer;
 }
 
-
-.project {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 img.small-icon {
   height: 20px;
   width: 20px;
@@ -67,5 +62,9 @@ img.small-icon {
 }
 
 img.small-icon:hover {
-  background-image: linear-gradient(rgb(0 0 0/10%) 0 0);
+  background-image: var(--light-tint);
+}
+
+button {
+  border: 1px solid lightslategray;
 }
