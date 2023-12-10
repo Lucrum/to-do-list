@@ -1,6 +1,7 @@
 import { expandTodo, openEditTodoForm, deleteTodo } from "."
 import DeleteIcon from "../images/icons/delete.svg"
 import EditIcon from "../images/icons/pencil.svg"
+import { generateTodoExpansion } from "./expansion"
 
 export class Todo {
   constructor(title, description, dueDate, priority, notes, id, projectId) {
@@ -96,27 +97,33 @@ export function generateTodos(todos, projectId) {
       headerTitle.textContent += " — " + todo.dueDate
     }
 
+    // info
+    let todoInfo = generateTodoExpansion(todo)
+
     // expansion
-    headerWrapper.addEventListener('click', (e) => {
-      console.log(e)
-      const parent = e.target.parentNode.parentNode
-      if (parent.dataset.expanded !== undefined) {
-        parent.removeAttribute('data-expanded')
-        parent.parentNode.querySelector('div.todo-info').remove()
-      } else {
-        parent.dataset.expanded = ''
-        expandTodo(parent)
-      }
-    })
+    headerTitle.addEventListener('click', expandInfo)
 
     // modify buttons
     let editButton = generateModifyButton(projectId, todo.id, 'Edit', EditIcon)
     let deleteButton = generateModifyButton(projectId, todo.id, 'Delete', DeleteIcon)
     headerWrapper.append(headerTitle, editButton, deleteButton)
-    div.append(headerWrapper)
+    div.append(headerWrapper, todoInfo)
     res.push(div)
   }
   return res
+}
+
+function expandInfo(e) {
+  console.log(e)
+  const parent = e.target.parentNode.parentNode
+  const todoInfo = parent.querySelector('div.todo-info')
+  if (parent.dataset.expanded !== undefined) {
+    parent.removeAttribute('data-expanded')
+    todoInfo.hidden = true
+  } else {
+    parent.dataset.expanded = ''
+    todoInfo.hidden = false
+  }
 }
 
 export function renderNoTodos() {
