@@ -114,15 +114,14 @@ export function generateTodos(todos, projectId) {
 }
 
 function expandInfo(e) {
-  console.log(e)
   const parent = e.target.parentNode.parentNode
   const todoInfo = parent.querySelector('div.todo-info')
   if (parent.dataset.expanded !== undefined) {
     parent.removeAttribute('data-expanded')
-    todoInfo.hidden = true
+    todoInfo.classList.remove('shown')
   } else {
     parent.dataset.expanded = ''
-    todoInfo.hidden = false
+    todoInfo.classList.add('shown')
   }
 }
 

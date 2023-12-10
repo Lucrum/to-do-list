@@ -35,3 +35,17 @@ div.todo[data-priority='4'] {
 div.todo[data-priority='5'] {
   background-color: var(--priority-five);
 }
+
+div.todo-info {
+  max-height: 0px;
+  transition: max-height 0.35s cubic-bezier(.19,1,.22,1);
+  overflow: hidden;
+  position: relative;
+}
+
+div.todo-info.shown {
+  max-height: 1000px;
+  transition: max-height 0.35s ease-in-out;
+  overflow: hidden;
+  position: relative;
+}
