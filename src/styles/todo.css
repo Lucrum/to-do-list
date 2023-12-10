@@ -1,0 +1,51 @@
+:root {
+  --priority-one: #FFF0D9;
+  --priority-two: #FECEBD;
+  --priority-three: #FEADA1;
+  --priority-four: #FD8B85;
+  --priority-five: #FC6969;
+}
+
+div.todo {
+  padding: 2rem;
+  border-radius: var(--standard-radius);
+}
+
+div.todo-header {
+  display: flex;
+  align-items: center;
+}
+
+div.todo[data-priority='1'] {
+  background-color: var(--priority-one);
+}
+
+div.todo[data-priority='2'] {
+  background-color: var(--priority-two);
+}
+
+div.todo[data-priority='3'] {
+  background-color: var(--priority-three);
+}
+
+div.todo[data-priority='4'] {
+  background-color: var(--priority-four);
+}
+
+div.todo[data-priority='5'] {
+  background-color: var(--priority-five);
+}
+
+div.todo-info {
+  max-height: 0px;
+  transition: max-height 0.35s cubic-bezier(.19,1,.22,1);
+  overflow: hidden;
+  position: relative;
+}
+
+div.todo-info.shown {
+  max-height: 1000px;
+  transition: max-height 0.35s ease-in-out;
+  overflow: hidden;
+  position: relative;
+}

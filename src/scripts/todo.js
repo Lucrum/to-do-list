@@ -1,4 +1,6 @@
 import { expandTodo, openEditTodoForm, deleteTodo } from "."
+import DeleteIcon from "../images/icons/delete.svg"
+import EditIcon from "../images/icons/pencil.svg"
 import { generateTodoExpansion } from "./expansion"
 
 export class Todo {
@@ -90,6 +92,7 @@ export function generateTodos(todos, projectId) {
     headerTitle.textContent = todo.title
     div.dataset.projectId = projectId
     div.dataset.id = todo.id
+    div.dataset.priority = todo.priority
     if (todo.dueDate) {
       headerTitle.textContent += " — " + todo.dueDate
     }
@@ -101,8 +104,8 @@ export function generateTodos(todos, projectId) {
     headerTitle.addEventListener('click', expandInfo)
 
     // modify buttons
-    let editButton = generateModifyButton(projectId, todo.id, 'Edit')
-    let deleteButton = generateModifyButton(projectId, todo.id, 'Delete')
+    let editButton = generateModifyButton(projectId, todo.id, 'Edit', EditIcon)
+    let deleteButton = generateModifyButton(projectId, todo.id, 'Delete', DeleteIcon)
     headerWrapper.append(headerTitle, editButton, deleteButton)
     div.append(headerWrapper, todoInfo)
     res.push(div)
@@ -111,15 +114,14 @@ export function generateTodos(todos, projectId) {
 }
 
 function expandInfo(e) {
-  console.log(e)
   const parent = e.target.parentNode.parentNode
   const todoInfo = parent.querySelector('div.todo-info')
   if (parent.dataset.expanded !== undefined) {
     parent.removeAttribute('data-expanded')
-    todoInfo.hidden = true
+    todoInfo.classList.remove('shown')
   } else {
     parent.dataset.expanded = ''
-    todoInfo.hidden = false
+    todoInfo.classList.add('shown')
   }
 }
 
@@ -130,10 +132,11 @@ export function renderNoTodos() {
   return p
 }
 
-function generateModifyButton(projectId, todoId, action) {
-  const b = document.createElement('button')
+function generateModifyButton(projectId, todoId, action, icon) {
+  const b = document.createElement('img')
   b.dataset.action = action
-  b.textContent = action
+  b.src = icon
+  b.classList.add('small-icon')
   b.addEventListener('click', (e) => {
     switch(e.target.dataset.action) {
       case 'Edit':

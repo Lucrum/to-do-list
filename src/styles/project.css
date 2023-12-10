@@ -1,0 +1,14 @@
+.project {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+.project > .title {
+  overflow: scroll;
+}
+
+.project.active {
+  background-image: var(--light-tint);
+}

@@ -15,7 +15,6 @@ export function generateTodoExpansion(todo) {
     propertyDiv.append(propertyHeading, propertyDetails)
     div.append(propertyDiv)
   }
-  div.hidden = true
   return div
 }
 
