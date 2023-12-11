@@ -1,6 +1,7 @@
 :root {
   --standard-radius: 0.5rem;
   --light-tint: linear-gradient(rgb(0 0 0/10%) 0 0);
+  --primary-color: #ffcdaa;
 }
 
 body {
@@ -27,6 +28,11 @@ div#content-wrapper {
 div#content-wrapper,
 button {
   border-radius: var(--standard-radius)
+}
+
+button {
+  background-color: var(--primary-color);
+  border: 1px solid lightslategray;
 }
 
 div#sidebar-wrapper {
@@ -70,8 +76,4 @@ img.small-icon {
 
 img.small-icon:hover {
   background-image: var(--light-tint);
-}
-
-button {
-  border: 1px solid lightslategray;
 }
