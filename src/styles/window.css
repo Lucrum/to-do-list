@@ -51,6 +51,13 @@ div#project-wrapper {
 .todo-header > .title,
 img.small-icon {
   cursor: pointer;
+  border-radius: var(--standard-radius);
+  padding: 3px;
+}
+
+.project > .title:hover,
+.todo-header > .title:hover {
+  background-image: var(--light-tint);
 }
 
 img.small-icon {
