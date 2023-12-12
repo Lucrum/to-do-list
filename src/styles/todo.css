@@ -9,6 +9,7 @@
 div.todo {
   padding: 2rem;
   border-radius: var(--standard-radius);
+  border: 1px solid gray;
 }
 
 div.todo-header {
