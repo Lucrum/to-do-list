@@ -62,7 +62,8 @@ img.small-icon {
 }
 
 .project > .title:hover,
-.todo-header > .title:hover {
+.todo-header > .title:hover,
+button:hover {
   background-image: var(--light-tint);
 }
 
