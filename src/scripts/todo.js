@@ -1,4 +1,5 @@
-import { expandTodo, openEditTodoForm, deleteTodo } from "."
+import { format, formatDistanceToNow, isAfter } from "date-fns"
+import { openEditTodoForm, deleteTodo } from "."
 import DeleteIcon from "../images/icons/delete.svg"
 import EditIcon from "../images/icons/pencil.svg"
 import { generateTodoExpansion } from "./expansion"
@@ -35,6 +36,39 @@ export class Todo {
     }
   }
 
+  get due() {
+    return format(this._dueDate, 'EEEE, MM/dd/yyyy')
+  }
+
+  get dueDateIso() {
+    return format(this._dueDate, 'yyyy-MM-dd')
+  }
+
+  get dueDate() {
+    return this._dueDate
+  }
+
+  get dueDateString() {
+    if (this._dueDate !== undefined) {
+      let res = formatDistanceToNow(this._dueDate)
+      if (isAfter(Date.now(), this._dueDate)) {
+        res += ' ago'
+      } else {
+        res = 'in ' + res
+      }
+      return res
+    }
+  }
+
+  set dueDate(value) {
+    // store date in all its iso glory
+    if (value) {
+      this._dueDate = new Date(value + 'T23:59:59.000')
+    } else {
+      this._dueDate = ''
+    }
+  }
+  
   get title() {
     return this._title
   }
@@ -50,13 +84,13 @@ export class Todo {
   }
 }
 
-export const expandedTodoProperties = ['description', 'priority', 'notes']
+export const expandedTodoProperties = ['due', 'description', 'priority', 'notes']
 
 export function todoFromFormData(formData) {
   let todo = new Todo(
     formData.get('title'),
     formData.get('description'),
-    formData.get('due-date'),
+    formData.get('due-date-iso'),
     formData.get('priority'),
     formData.get('notes'),
     formData.get('id'),
@@ -69,7 +103,7 @@ export function editTodoFromFormData(todo, formData) {
   todo.edit(
     formData.get('title'),
     formData.get('description'),
-    formData.get('due-date'),
+    formData.get('due-date-iso'),
     formData.get('priority'),
     formData.get('notes'),
   )
@@ -94,7 +128,8 @@ export function generateTodos(todos, projectId) {
     div.dataset.id = todo.id
     div.dataset.priority = todo.priority
     if (todo.dueDate) {
-      headerTitle.textContent += " — " + todo.dueDate
+      headerTitle.textContent += ' — ' + todo.dueDateString
+      
     }
 
     // info

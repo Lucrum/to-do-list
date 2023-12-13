@@ -48,7 +48,7 @@ export function newProjectForm(projectId) {
 // must pass in entire todo for data filling
 export function editTodoForm(todo) {
   const parameters = [
-    'title', 'description', 'dueDate', 'priority', 'notes', 'id'
+    'title', 'description', 'dueDateIso', 'priority', 'notes', 'id'
   ]
   const [modal, form] = getModalForm('todo')
   buildForm(form, 'Edit Todo', 'Edit', 'edit', todo.id)
