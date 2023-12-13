@@ -12,7 +12,6 @@ const generalTodos = [
   new Todo('Feed yourself', 'cook', '2023-12-15', 3, '', 2, 0),
   new Todo('Sleep', '', '2023-12-29', 4, '', 3, 0),
 ]
-// parse and process dates properly (parse iso when rendering todos)
 
 const worldDominationTodos = [
   new Todo('Take over the world', '', '2023-12-08', 1, '', 1, 0),
