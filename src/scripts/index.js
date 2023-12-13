@@ -5,26 +5,12 @@ import { Todo, todoFromFormData, generateTodos, editTodoFromFormData, renderNoTo
 import { Project, projectFromForm, generateProjects, editProjectFromFormData } from "./project"
 import { editTodoForm, newProjectForm, newTodoForm } from "./forms"
 import { generateTodoExpansion } from "./expansion"
+import { getData, saveData, storageAvailable } from "./storage"
 
-const generalTodos = [
-  new Todo('Groceries', 'Buy eggs', '2023-12-05', 1, '', 0, 0),
-  new Todo('School', 'Pass classes', '2023-12-12', 5, '', 1, 0),
-  new Todo('Feed yourself', 'cook', '2023-12-15', 3, '', 2, 0),
-  new Todo('Sleep', '', '2023-12-29', 4, '', 3, 0),
-]
-
-const worldDominationTodos = [
-  new Todo('Take over the world', '', '2023-12-08', 1, '', 1, 0),
-  new Todo('Make sure Diego sleeps well', '', '2024-12-15', 1, '', 1, 1),
-]
-
-const projects = [
-  new Project("Default", 0),
-  new Project("World Domination", 1),
-]
 
 let currentProjectId = 0
-let nextProjectId = 2
+let nextProjectId = 0
+let projects = []
 
 const projectWrapper = document.querySelector('div#project-wrapper')
 const todoWrapper = document.querySelector('div#todo-wrapper')
@@ -32,12 +18,20 @@ const createNewTodo = document.querySelector('button#new-todo')
 const createNewProject = document.querySelector('button#new-project')
 
 function setup() {
-  for (const todo of generalTodos) {
-    projects[0].addTodo(todo)
+  // check if there are existing todos. If so, load them
+  // otherwise, createSampleProjects
+
+  if(storageAvailable('localStorage') && localStorage.getItem('projects')) {
+    console.log('detected data, fetching...')
+    let savedData = getData()
+    projects = savedData.projects
+    currentProjectId = savedData.currentProjectId
+    nextProjectId = savedData.nextProjectId
+  } else {
+    console.log('generating sample projects')
+    projects = createSampleProjects()
   }
-  for (const todo of worldDominationTodos) {
-    projects[1].addTodo(todo)
-  }
+
   createNewTodo.addEventListener('click', () => {
     const newId = projects[findIndex(projects, currentProjectId)].nextTodoId
     newTodoForm(currentProjectId, newId)
@@ -53,6 +47,34 @@ function setup() {
 }
 
 setup()
+
+function createSampleProjects() {
+  const generalTodos = [
+    new Todo('Groceries', 'Buy eggs', '2023-12-05', 1, '', 0, 0),
+    new Todo('School', 'Pass classes', '2023-12-12', 5, '', 1, 0),
+    new Todo('Feed yourself', 'cook', '2023-12-15', 3, '', 2, 0),
+    new Todo('Sleep', '', '2023-12-29', 4, '', 3, 0),
+  ]
+  
+  const worldDominationTodos = [
+    new Todo('Take over the world', '', '2023-12-08', 1, '', 1, 0),
+    new Todo('Make sure Diego sleeps well', '', '2024-12-15', 1, '', 1, 1),
+  ]
+  
+  let res = [
+    new Project("Default", 0),
+    new Project("World Domination", 1),
+  ]
+
+  for (const todo of generalTodos) {
+    res[0].addTodo(todo)
+  }
+  for (const todo of worldDominationTodos) {
+    res[1].addTodo(todo)
+  }
+  nextProjectId = 2
+  return res
+}
 
 function renderProjects() {
   projectWrapper.replaceChildren(...generateProjects(projects))
@@ -80,7 +102,7 @@ function findTodo(projectId, todoId) {
   return targetProject.todos[findIndex(targetProject.todos, todoId)]
 }
 
-function removeProjectHighlights(id) {
+function removeProjectHighlights() {
   // remove all highlights
   const highlightedProjects = projectWrapper.querySelectorAll(`div.project.active`)
   for (const project of highlightedProjects) {
@@ -93,11 +115,16 @@ function addProjectHighlight(id) {
   projectDiv.classList.add('active')
 }
 
+function save() {
+  saveData(projects, currentProjectId, nextProjectId)
+}
+
 export function createTodo(form) {
   const formData = new FormData(form)
   const projectIndex = findIndex(projects, currentProjectId)
   projects[projectIndex].addTodo(todoFromFormData(formData))
   renderTodos()
+  save()
 }
 
 export function createProject(form) {
@@ -106,6 +133,7 @@ export function createProject(form) {
   renderProjects()
   changeProject(nextProjectId)
   nextProjectId++
+  save()
 }
 
 export function changeProject(id) {
@@ -127,6 +155,7 @@ export function deleteProject(id) {
   renderProjects()
   // select the first project, if there is one
   changeProject(projects[0] ? projects[0].id : null)
+  save()
 }
 
 export function editProject(projectId, form) {
@@ -134,6 +163,7 @@ export function editProject(projectId, form) {
   const formData = new FormData(form)
   editProjectFromFormData(projects[index], formData)
   renderProjects()
+  save()
 }
 
 // calls the corresponding function after finding the particular todo
@@ -149,6 +179,7 @@ export function deleteTodo(projectId, todoId) {
   const todoIndex = findIndex(targetProject.todos, todoId)
   targetProject.todos.splice(todoIndex, 1)
   renderTodos()
+  save()
 }
 
 export function openEditTodoForm(projectId, todoId) {
@@ -162,4 +193,5 @@ export function editTodo(form) {
   const target = findTodo(projectId, todoId)
   editTodoFromFormData(target, formData)
   renderTodos()
+  save()
 }
