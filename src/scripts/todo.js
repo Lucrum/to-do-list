@@ -47,6 +47,10 @@ export class Todo {
     return this._dueDate
   }
 
+  get dueDateIso() {
+    return format(this._dueDate, 'yyyy-MM-dd')
+  }
+
   get dueDateString() {
     if (this._dueDate) {
       let res = formatDistanceToNow(this._dueDate)
