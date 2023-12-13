@@ -37,11 +37,10 @@ export class Todo {
   }
 
   get due() {
-    return format(this._dueDate, 'EEEE, MM/dd/yyyy')
-  }
-
-  get dueDateIso() {
-    return format(this._dueDate, 'yyyy-MM-dd')
+    if (this._dueDate) {
+      return format(this._dueDate, 'EEEE, MM/dd/yyyy')
+    }
+    return ''
   }
 
   get dueDate() {
@@ -49,9 +48,9 @@ export class Todo {
   }
 
   get dueDateString() {
-    if (this._dueDate !== undefined) {
+    if (this._dueDate) {
       let res = formatDistanceToNow(this._dueDate)
-      if (isAfter(Date.now(), this._dueDate)) {
+      if (Date.now() > this._dueDate) {
         res += ' ago'
       } else {
         res = 'in ' + res
