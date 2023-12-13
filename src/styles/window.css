@@ -15,7 +15,8 @@ body {
 
 div#content-wrapper {
   height: 70vh;
-  width: clamp(300px, 50%, 1200px);
+  width: clamp(600px, 60%, 900px);
+  margin: 0px 100px;
   background-color: whitesmoke;
   box-shadow: 5px 5px 5px gray;
   display: grid;
@@ -77,4 +78,10 @@ img.small-icon {
 
 img.small-icon:hover {
   background-image: var(--light-tint);
+}
+
+@media (max-width: 1200px) {
+  div#content-wrapper {
+    margin: 0px 10px;
+  }
 }

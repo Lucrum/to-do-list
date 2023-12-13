@@ -50,3 +50,8 @@ div.todo-info.shown {
   overflow: hidden;
   position: relative;
 }
+
+div.empty-todo {
+  padding: 2rem;
+  text-align: center;
+}
