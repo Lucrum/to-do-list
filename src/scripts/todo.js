@@ -65,7 +65,9 @@ export class Todo {
 
   set dueDate(value) {
     // store date in all its iso glory
-    if (value) {
+    if (value.match(/.*T.*/g)) {
+      this._dueDate = new Date(value)
+    } else if (value) {
       this._dueDate = new Date(value + 'T23:59:59.000')
     } else {
       this._dueDate = ''

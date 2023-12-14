@@ -5,7 +5,7 @@ import { Todo, todoFromFormData, generateTodos, editTodoFromFormData, renderNoTo
 import { Project, projectFromForm, generateProjects, editProjectFromFormData } from "./project"
 import { editTodoForm, newProjectForm, newTodoForm } from "./forms"
 import { generateTodoExpansion } from "./expansion"
-import { getData, saveData, storageAvailable } from "./storage"
+import { loadData, saveData, storageAvailable } from "./storage"
 
 
 let currentProjectId = 0
@@ -22,13 +22,11 @@ function setup() {
   // otherwise, createSampleProjects
 
   if(storageAvailable('localStorage') && localStorage.getItem('projects')) {
-    console.log('detected data, fetching...')
-    let savedData = getData()
+    let savedData = loadData()
     projects = savedData.projects
     currentProjectId = savedData.currentProjectId
     nextProjectId = savedData.nextProjectId
   } else {
-    console.log('generating sample projects')
     projects = createSampleProjects()
   }
 
@@ -44,6 +42,7 @@ function setup() {
   // generate sidebar
   renderProjects()
   changeProject(currentProjectId)
+  
 }
 
 setup()

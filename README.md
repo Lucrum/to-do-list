@@ -7,8 +7,6 @@ Create and organize todos within projects, and edit and delete them to your hear
 
 Built using Webpack!
 
-Features project organization, due dates, editing support, deletion of todos
-
-Will soon feature local persistent storage!
+Features project organization, due dates, editing support, deletion of todos, and persistent local storage!
 
 See the site in action at https://lucrum.github.io/to-do-list/dist/index.html!

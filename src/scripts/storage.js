@@ -1,4 +1,8 @@
 // this function is from mdn docs
+
+import { Project } from "./project";
+import { Todo } from "./todo";
+
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
 export function storageAvailable(type) {
   let storage;
@@ -35,14 +39,29 @@ export function saveData(projects, currentProjectId, nextProjectId) {
 
 // need to parse and assign prototypes from JSON
 
-export function getData() {
+export function loadData() {
   let projects = JSON.parse(localStorage.getItem('projects'))
   let currentProjectId = localStorage.getItem('currentProjectId')
   let nextProjectId = localStorage.getItem('nextProjectId')
+
+  projects = processProjects(projects)
 
   return {
     projects: projects,
     currentProjectId: currentProjectId,
     nextProjectId: nextProjectId,
   }
+}
+
+// assigns projects and their todos their respective prototypes
+function processProjects(projects) {
+  for (let project of projects) {
+    Object.setPrototypeOf(project, Project.prototype)
+    for (let todo of project.todos) {
+      Object.setPrototypeOf(todo, Todo.prototype)
+      // with the new prototype, this will call the setter
+      todo.dueDate = todo.dueDate
+    }
+  }
+  return projects
 }
