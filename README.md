@@ -9,4 +9,4 @@ Built using Webpack!
 
 Features project organization, due dates, editing support, deletion of todos, and persistent local storage!
 
-See the site in action at https://lucrum.github.io/to-do-list/dist/index.html!
+See the site in action at https://lucrum.github.io/to-do-list/!
